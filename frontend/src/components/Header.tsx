@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
   
   const handleNavClick = (section: string) => {
     if (section === 'tutors') {
@@ -15,6 +17,8 @@ const Header: React.FC = () => {
       navigate('/about');
     } else if (section === 'contact') {
       navigate('/contact');
+    } else if (section === 'login') {
+      navigate('/login');
     } else {
       // TODO: Implement other navigation logic
     }
@@ -40,10 +44,29 @@ const Header: React.FC = () => {
             <button onClick={() => handleNavClick('contact')} className="text-gray-700 hover:text-blue-600 bg-transparent border-none cursor-pointer">Liên hệ</button>
           </nav>
           <div className="flex items-center space-x-4">
-            <button className="text-gray-700 hover:text-blue-600">Đăng nhập</button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Đăng ký
-            </button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3">
+                <span className="text-sm text-gray-700">
+                  Xin chào, {user?.name || user?.email}
+                </span>
+                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                  {user?.role === 'student' ? 'Học viên' : 'Gia sư'}
+                </span>
+                <button 
+                  onClick={logout} 
+                  className="text-gray-700 hover:text-red-600 text-sm"
+                >
+                  Đăng xuất
+                </button>
+              </div>
+            ) : (
+              <>
+                <button onClick={() => handleNavClick('login')} className="text-gray-700 hover:text-blue-600">Đăng nhập</button>
+                <button onClick={() => navigate('/register')} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                  Đăng ký
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

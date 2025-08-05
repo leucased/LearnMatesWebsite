@@ -1,12 +1,15 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./routes/AppRoutes";
+import { AuthProvider } from "./contexts/AuthContext";
 
 const App = () => {
   return (
-    <BrowserRouter basename="/LearnMatesWebsite">
-      <AppRoutes />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter basename="/LearnMatesWebsite">
+        <AppRoutes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 

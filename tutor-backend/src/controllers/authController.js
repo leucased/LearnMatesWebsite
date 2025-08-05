@@ -13,7 +13,7 @@ const generateToken = (id) => {
 // @access  Public
 const register = async (req, res) => {
   try {
-    const { email, password, fullName, phone, role = 'student' } = req.body;
+    const { email, password, fullName, role = 'student' } = req.body;
 
     // Check if user exists
     const userExists = await User.findOne({ where: { email } });
@@ -29,7 +29,6 @@ const register = async (req, res) => {
       email,
       password,
       fullName,
-      phone,
       role
     });
 
@@ -60,23 +59,25 @@ const register = async (req, res) => {
 // @access  Public
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     // Check for user
     const user = await User.findOne({ where: { email } });
     
     if (!user) {
       return res.status(401).json({
-        status: 'error',
+        success: false,
         message: 'Email hoặc mật khẩu không đúng'
       });
     }
 
-    // Check if user is active
-    if (!user.isActive) {
+
+
+    // Check if role matches (if role is provided)
+    if (role && user.role !== role) {
       return res.status(401).json({
-        status: 'error',
-        message: 'Tài khoản đã bị khóa'
+        success: false,
+        message: `Tài khoản này không có quyền đăng nhập với vai trò ${role === 'student' ? 'Học viên' : 'Gia sư'}`
       });
     }
 
@@ -84,7 +85,7 @@ const login = async (req, res) => {
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({
-        status: 'error',
+        success: false,
         message: 'Email hoặc mật khẩu không đúng'
       });
     }
@@ -92,17 +93,20 @@ const login = async (req, res) => {
     const token = generateToken(user.id);
 
     res.json({
-      status: 'success',
+      success: true,
       message: 'Đăng nhập thành công',
-      data: {
-        user,
-        token
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        name: user.fullName
       }
     });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({
-      status: 'error',
+      success: false,
       message: 'Lỗi server',
       error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });

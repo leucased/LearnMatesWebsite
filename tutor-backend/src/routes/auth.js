@@ -23,15 +23,11 @@ const registerValidation = [
     .withMessage('Mật khẩu phải có ít nhất 6 ký tự'),
   body('fullName')
     .trim()
-    .isLength({ min: 2, max: 50 })
-    .withMessage('Họ tên phải từ 2-50 ký tự'),
-  body('phone')
-    .optional()
-    .matches(/^[0-9]{10,11}$/)
-    .withMessage('Số điện thoại không hợp lệ'),
+    .isLength({ min: 2, max: 100 })
+    .withMessage('Họ tên phải từ 2-100 ký tự'),
   body('role')
     .optional()
-    .isIn(['student', 'tutor'])
+    .isIn(['student', 'tutor', 'admin'])
     .withMessage('Vai trò không hợp lệ')
 ];
 
@@ -42,7 +38,11 @@ const loginValidation = [
     .normalizeEmail(),
   body('password')
     .notEmpty()
-    .withMessage('Mật khẩu là bắt buộc')
+    .withMessage('Mật khẩu là bắt buộc'),
+  body('role')
+    .optional()
+    .isIn(['student', 'tutor', 'admin'])
+    .withMessage('Vai trò không hợp lệ')
 ];
 
 const updateProfileValidation = [

@@ -27,25 +27,27 @@ const connectDB = async () => {
   try {
     await sequelize.authenticate();
     console.log(`✅ PostgreSQL Connected: ${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
-    
-    // Sync database (create tables if they don't exist)
-    if (process.env.NODE_ENV === 'development') {
-      await sequelize.sync({ alter: true });
-      console.log('🔄 Database synchronized');
-    }
-    
+    // Tự động tạo bảng nếu chưa có
+    await sequelize.sync({ alter: true });
+    console.log('🔄 Database synchronized');
     // Handle connection events
     sequelize.addHook('afterConnect', (connection) => {
       console.log('🔗 New database connection established');
     });
-
     // Graceful shutdown
     process.on('SIGINT', async () => {
+      console.log('🔄 Shutting down gracefully...');
       await sequelize.close();
       console.log('🔄 Database connection closed through app termination');
       process.exit(0);
     });
-
+    
+    process.on('SIGTERM', async () => {
+      console.log('🔄 Shutting down gracefully...');
+      await sequelize.close();
+      console.log('🔄 Database connection closed through app termination');
+      process.exit(0);
+    });
   } catch (error) {
     console.error('❌ Error connecting to PostgreSQL:', error.message);
     process.exit(1);
