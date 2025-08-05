@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-300 to-pink-200 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <AuthBranding />
         <div className="bg-white rounded-2xl shadow-xl px-8 py-10 sm:p-10">
@@ -100,6 +100,15 @@ const LoginPage: React.FC = () => {
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Mật khẩu"
               />
+              <div className="text-right mt-1">
+                <button
+                  type="button"
+                  className="text-sm text-indigo-600 hover:text-indigo-800 focus:outline-none"
+                  onClick={() => navigate('/forgot-password')}
+                >
+                  Quên mật khẩu?
+                </button>
+              </div>
             </div>
             <div>
               <button
