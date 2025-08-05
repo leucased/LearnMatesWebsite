@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/LearnMatesWebsite/static/css/main.c382b300.css",
+    "main.js": "/LearnMatesWebsite/static/js/main.295b9f61.js",
+    "static/js/453.aaf9dfed.chunk.js": "/LearnMatesWebsite/static/js/453.aaf9dfed.chunk.js",
+    "index.html": "/LearnMatesWebsite/index.html",
+    "main.c382b300.css.map": "/LearnMatesWebsite/static/css/main.c382b300.css.map",
+    "main.295b9f61.js.map": "/LearnMatesWebsite/static/js/main.295b9f61.js.map",
+    "453.aaf9dfed.chunk.js.map": "/LearnMatesWebsite/static/js/453.aaf9dfed.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c382b300.css",
+    "static/js/main.295b9f61.js"
+  ]
+}
