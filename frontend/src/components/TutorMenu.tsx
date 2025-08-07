@@ -10,7 +10,7 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-const StudentMenu: React.FC = () => {
+const TutorMenu: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(true);
@@ -20,51 +20,53 @@ const StudentMenu: React.FC = () => {
 
   const menuItems: MenuItem[] = [
     {
-      id: 'hoc-tap',
-      title: 'Học tập',
-      icon: '📚',
+      id: 'quan-ly-lop-hoc',
+      title: 'Quản lý lớp học',
+      icon: '🏫',
       children: [
-        { id: 'dang-ky-khoa-hoc', title: 'Đăng ký khóa học', path: '/student/courses/register', icon: '📝' },
-        { id: 'khoa-hoc-cua-toi', title: 'Khóa học của tôi', path: '/student/courses/my-courses', icon: '📖' },
-        { id: 'lich-hoc', title: 'Lịch học', path: '/student/schedule', icon: '📅' },
-        { id: 'lich-su-hoc-tap', title: 'Lịch sử học tập', path: '/student/learning-history', icon: '📊' }
-      ]
+        { id: 'lich-day', title: 'Lịch dạy', path: '/tutor/schedule', icon: '📅' },
+        { id: 'khoa-hoc-da-dang', title: 'Khóa học đã đăng', path: '/tutor/courses', icon: '📚' },
+        { id: 'hoc-vien-cua-toi', title: 'Học viên của tôi', path: '/tutor/students', icon: '🧑‍🎓' },
+        { id: 'dang-khoa-hoc-moi', title: 'Đăng khóa học mới', path: '/tutor/courses/new', icon: '➕' },
+      ],
     },
     {
       id: 'tuong-tac',
       title: 'Tương tác',
       icon: '💬',
       children: [
-        { id: 'tin-nhan', title: 'Tin nhắn', path: '/student/messages', icon: '💌' },
-        { id: 'danh-gia-nhan-xet', title: 'Đánh giá & Nhận xét', path: '/student/reviews', icon: '⭐' }
-      ]
+        { id: 'tin-nhan', title: 'Tin nhắn', path: '/tutor/messages', icon: '💌' },
+        { id: 'danh-gia-tu-hoc-vien', title: 'Đánh giá từ học viên', path: '/tutor/reviews', icon: '⭐' },
+        { id: 'yeu-cau-dang-ky', title: 'Yêu cầu đăng ký từ học viên', path: '/tutor/requests', icon: '📥' },
+      ],
     },
     {
-      id: 'thanh-toan',
-      title: 'Thanh toán',
-      icon: '💳',
+      id: 'thu-nhap',
+      title: 'Thu nhập',
+      icon: '💰',
       children: [
-        { id: 'hoa-don-thanh-toan', title: 'Hóa đơn & Thanh toán', path: '/student/payments', icon: '🧾' },
-        { id: 'ma-giam-gia', title: 'Mã giảm giá', path: '/student/discounts', icon: '🎫' }
-      ]
+        { id: 'quan-ly-thu-nhap', title: 'Quản lý thu nhập', path: '/tutor/income', icon: '📈' },
+        { id: 'yeu-cau-rut-tien', title: 'Yêu cầu rút tiền', path: '/tutor/withdraw', icon: '💸' },
+        { id: 'lich-su-thanh-toan', title: 'Lịch sử thanh toán', path: '/tutor/payments', icon: '🧾' },
+      ],
     },
     {
       id: 'tai-khoan',
       title: 'Tài khoản',
       icon: '👤',
       children: [
-        { id: 'thong-tin-ca-nhan', title: 'Thông tin cá nhân', path: '/student/profile', icon: '👤' },
-        { id: 'thay-doi-mat-khau', title: 'Thay đổi mật khẩu', path: '/student/change-password', icon: '🔒' },
-        { id: 'anh-dai-dien', title: 'Ảnh đại diện / Hồ sơ', path: '/student/avatar', icon: '🖼️' }
-      ]
+        { id: 'thong-tin-ca-nhan', title: 'Thông tin cá nhân', path: '/tutor/profile', icon: '📝' },
+        { id: 'thay-doi-mat-khau', title: 'Thay đổi mật khẩu', path: '/tutor/change-password', icon: '🔒' },
+        { id: 'ho-so-nang-luc', title: 'Hồ sơ năng lực (CV, chứng chỉ, giới thiệu bản thân)', path: '/tutor/cv', icon: '📄' },
+      ],
     },
     {
       id: 'he-thong',
       title: 'Hệ thống',
       icon: '⚙️',
       children: [
-        { id: 'thong-bao', title: 'Thông báo', path: '/student/notifications', icon: '🔔' },
-        { id: 'tro-giup-ho-tro', title: 'Trợ giúp & Hỗ trợ', path: '/student/help', icon: '❓' }
+        { id: 'thong-bao', title: 'Thông báo', path: '/tutor/notifications', icon: '🔔' },
+        { id: 'tro-giup-ho-tro', title: 'Trợ giúp & Hỗ trợ', path: '/tutor/help', icon: '❓' }
       ]
     }
   ];
@@ -77,7 +79,6 @@ const StudentMenu: React.FC = () => {
     setActiveSection(activeSection === sectionId ? null : sectionId);
   };
 
-  // Sửa handleMenuItemClick
   const handleMenuItemClick = (item: MenuItem) => {
     if (item.id === 'dang-xuat') {
       setShowLogoutConfirm(true);
@@ -116,7 +117,6 @@ const StudentMenu: React.FC = () => {
             </span>
           )}
         </div>
-        
         {isSection && isActive && (
           <div className="mt-2 space-y-1">
             {item.children?.map(child => renderMenuItem(child, level + 1))}
@@ -144,13 +144,13 @@ const StudentMenu: React.FC = () => {
         <div className="bg-blue-600 text-white p-6">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-              <span className="text-blue-600 text-xl">👤</span>
+              <span className="text-blue-600 text-xl">👨‍🏫</span>
             </div>
             <div>
               <h3 className="font-semibold text-lg">
                 {user?.name || user?.email}
               </h3>
-              <p className="text-blue-100 text-sm">Học viên</p>
+              <p className="text-blue-100 text-sm">Gia sư</p>
             </div>
           </div>
         </div>
@@ -201,4 +201,4 @@ const StudentMenu: React.FC = () => {
   );
 };
 
-export default StudentMenu; 
+export default TutorMenu;

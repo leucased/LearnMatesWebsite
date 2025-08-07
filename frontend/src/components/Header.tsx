@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import StudentMenu from './StudentMenu';
+import TutorMenu from './TutorMenu';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -54,7 +55,7 @@ const Header: React.FC = () => {
                   <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
                     {user?.role === 'student' ? 'Học viên' : 'Gia sư'}
                   </span>
-                  {user?.role !== 'student' && (
+                  {user?.role === 'student' && (
                     <button 
                       onClick={logout} 
                       className="text-gray-700 hover:text-red-600 text-sm"
@@ -76,6 +77,7 @@ const Header: React.FC = () => {
         </div>
       </header>
       {isAuthenticated && user?.role === 'student' && <StudentMenu />}
+      {isAuthenticated && user?.role === 'tutor' && <TutorMenu />}
     </>
   );
 };
