@@ -17,6 +17,8 @@ const Header: React.FC = () => {
       navigate('/courses');
     } else if (section === 'about') {
       navigate('/about');
+    } else if (section === 'events') {
+      navigate('/events');
     } else if (section === 'contact') {
       navigate('/contact');
     } else if (section === 'login') {
@@ -43,6 +45,7 @@ const Header: React.FC = () => {
               <button onClick={() => handleNavClick('home')} className="text-gray-700 hover:text-blue-600 bg-transparent border-none cursor-pointer">Trang chủ</button>
               <button onClick={() => handleNavClick('tutors')} className="text-gray-700 hover:text-blue-600 bg-transparent border-none cursor-pointer">Gia sư</button>
               <button onClick={() => handleNavClick('courses')} className="text-gray-700 hover:text-blue-600 bg-transparent border-none cursor-pointer">Khóa học</button>
+              <button onClick={() => handleNavClick('events')} className="text-gray-700 hover:text-blue-600 bg-transparent border-none cursor-pointer">Sự kiện</button>
               <button onClick={() => handleNavClick('about')} className="text-gray-700 hover:text-blue-600 bg-transparent border-none cursor-pointer">Về LearnMates</button>
               <button onClick={() => handleNavClick('contact')} className="text-gray-700 hover:text-blue-600 bg-transparent border-none cursor-pointer">Liên hệ</button>
             </nav>
@@ -55,14 +58,6 @@ const Header: React.FC = () => {
                   <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
                     {user?.role === 'student' ? 'Học viên' : 'Gia sư'}
                   </span>
-                  {user?.role === 'student' && (
-                    <button 
-                      onClick={logout} 
-                      className="text-gray-700 hover:text-red-600 text-sm"
-                    >
-                      Đăng xuất
-                    </button>
-                  )}
                 </div>
               ) : (
                 <>
