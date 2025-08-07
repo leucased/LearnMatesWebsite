@@ -30,10 +30,7 @@ const connectDB = async () => {
     // Tự động tạo bảng nếu chưa có
     await sequelize.sync({ alter: true });
     console.log('🔄 Database synchronized');
-    // Handle connection events
-    sequelize.addHook('afterConnect', (connection) => {
-      console.log('🔗 New database connection established');
-    });
+    
     // Graceful shutdown
     process.on('SIGINT', async () => {
       console.log('🔄 Shutting down gracefully...');
