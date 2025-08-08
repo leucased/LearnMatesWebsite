@@ -35,7 +35,6 @@ const StudentMenu: React.FC = () => {
       title: 'Tương tác',
       icon: '💬',
       children: [
-        { id: 'tin-nhan', title: 'Tin nhắn', path: '/student/messages', icon: '💌' },
         { id: 'danh-gia-nhan-xet', title: 'Đánh giá & Nhận xét', path: '/student/reviews', icon: '⭐' }
       ]
     },

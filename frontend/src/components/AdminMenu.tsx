@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useAdminMenu } from '../contexts/AdminMenuContext';
 
 interface MenuItem {
   id: string;
@@ -10,68 +11,69 @@ interface MenuItem {
   children?: MenuItem[];
 }
 
-const TutorMenu: React.FC = () => {
+const AdminMenu: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(true);
+  const { isMenuOpen, setIsMenuOpen } = useAdminMenu();
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  // Thêm state xác nhận đăng xuất
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
   const menuItems: MenuItem[] = [
     {
-      id: 'quan-ly-lop-hoc',
-      title: 'Quản lý lớp học',
-      icon: '🏫',
+      id: 'bang-dieu-khien',
+      title: 'Bảng điều khiển',
+      icon: '📊',
+      path: '/admin/dashboard'
+    },
+    {
+      id: 'nguoi-dung',
+      title: 'Người dùng',
+      icon: '👥',
       children: [
-        { id: 'lich-day', title: 'Lịch dạy', path: '/tutor/schedule', icon: '📅' },
-        { id: 'khoa-hoc-hien-tai', title: 'Khóa học hiện tại', path: '/tutor/courses', icon: '📚' },
-        { id: 'hoc-vien-cua-toi', title: 'Học viên của tôi', path: '/tutor/students', icon: '🧑‍🎓' },
-        { id: 'khoa-hoc-can-gia-su', title: 'Khóa học cần gia sư', path: '/tutor/courses/new', icon: '🔍' },
+        { id: 'quan-ly-hoc-vien', title: 'Quản lý học viên', path: '/admin/students', icon: '👨‍🎓' },
+        { id: 'quan-ly-gia-su', title: 'Quản lý gia sư', path: '/admin/tutors', icon: '👨‍🏫' },
+        { id: 'phan-quyen', title: 'Phân quyền', path: '/admin/permissions', icon: '🔐' },
       ],
     },
     {
-      id: 'tuong-tac',
-      title: 'Tương tác',
-      icon: '💬',
+      id: 'khoa-hoc',
+      title: 'Khóa học',
+      icon: '📚',
       children: [
-        { id: 'danh-gia-tu-hoc-vien', title: 'Đánh giá từ học viên', path: '/tutor/reviews', icon: '⭐' },
-        { id: 'yeu-cau-dang-ky', title: 'Yêu cầu đăng ký từ học viên', path: '/tutor/requests', icon: '📥' },
+        { id: 'quan-ly-khoa-hoc', title: 'Quản lý khóa học', path: '/admin/courses', icon: '📖' },
+        { id: 'quan-ly-yeu-cau', title: 'Quản lý yêu cầu', path: '/admin/requests', icon: '📋' },
       ],
     },
     {
-      id: 'thu-nhap',
-      title: 'Thu nhập',
+      id: 'giao-dich',
+      title: 'Giao dịch',
       icon: '💰',
       children: [
-        { id: 'quan-ly-thu-nhap', title: 'Quản lý thu nhập', path: '/tutor/income', icon: '📈' },
-        { id: 'yeu-cau-rut-tien', title: 'Yêu cầu rút tiền', path: '/tutor/withdraw', icon: '💸' },
-        { id: 'lich-su-thanh-toan', title: 'Lịch sử thanh toán', path: '/tutor/payments', icon: '🧾' },
+        { id: 'quan-ly-thanh-toan', title: 'Quản lý thanh toán', path: '/admin/payments', icon: '💳' },
+        { id: 'hoan-tien', title: 'Hoàn tiền', path: '/admin/refunds', icon: '↩️' },
+        { id: 'doanh-thu', title: 'Doanh thu', path: '/admin/revenue', icon: '📈' },
       ],
     },
     {
-      id: 'tai-khoan',
-      title: 'Tài khoản',
-      icon: '👤',
+      id: 'noi-dung-ho-tro',
+      title: 'Nội dung & Hỗ trợ',
+      icon: '📝',
       children: [
-        { id: 'thong-tin-ca-nhan', title: 'Thông tin cá nhân', path: '/tutor/profile', icon: '📝' },
-        { id: 'thay-doi-mat-khau', title: 'Thay đổi mật khẩu', path: '/tutor/change-password', icon: '🔒' },
-        { id: 'ho-so-nang-luc', title: 'Hồ sơ năng lực (CV, chứng chỉ, giới thiệu bản thân)', path: '/tutor/cv', icon: '📄' },
+        { id: 'quan-ly-bai-viet', title: 'Quản lý bài viết', path: '/admin/articles', icon: '📄' },
+        { id: 'ho-tro-nguoi-dung', title: 'Hỗ trợ người dùng', path: '/admin/support', icon: '🆘' },
+        { id: 'quan-ly-danh-gia', title: 'Quản lý đánh giá gia sư', path: '/admin/reviews', icon: '⭐' },
       ],
     },
     {
-      id: 'he-thong',
-      title: 'Hệ thống',
+      id: 'cai-dat-he-thong',
+      title: 'Cài đặt hệ thống',
       icon: '⚙️',
-      children: [
-        { id: 'thong-bao', title: 'Thông báo', path: '/tutor/notifications', icon: '🔔' },
-        { id: 'tro-giup-ho-tro', title: 'Trợ giúp & Hỗ trợ', path: '/tutor/help', icon: '❓' }
-      ]
+      path: '/admin/settings'
     }
   ];
 
   const handleMenuToggle = () => {
-    setIsOpen(!isOpen);
+    setIsMenuOpen(!isMenuOpen);
   };
 
   const handleSectionToggle = (sectionId: string) => {
@@ -129,27 +131,27 @@ const TutorMenu: React.FC = () => {
     <div className="relative">
       <button
         onClick={handleMenuToggle}
-        className="fixed top-4 right-4 z-50 p-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-200"
+        className="fixed top-4 left-4 z-50 p-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-200"
       >
         <span className="text-xl">≡</span>
       </button>
 
       <div
-        className={`fixed top-0 right-0 h-full bg-white shadow-2xl transition-transform duration-300 ease-in-out z-40 ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
+        className={`fixed top-0 left-0 h-full bg-white shadow-2xl transition-transform duration-300 ease-in-out z-40 ${
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         style={{ width: '320px' }}
       >
         <div className="bg-blue-600 text-white p-6">
           <div className="flex items-center space-x-3">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-              <span className="text-blue-600 text-xl">👨‍🏫</span>
+              <span className="text-blue-600 text-xl">👑</span>
             </div>
             <div>
               <h3 className="font-semibold text-lg">
                 {user?.name || user?.email}
               </h3>
-              <p className="text-blue-100 text-sm">Gia sư</p>
+              <p className="text-blue-100 text-sm">Quản trị viên</p>
             </div>
           </div>
         </div>
@@ -167,13 +169,13 @@ const TutorMenu: React.FC = () => {
         </div>
       </div>
 
-      {isOpen && (
+      {isMenuOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 z-30"
           onClick={handleMenuToggle}
         />
       )}
-      {/* Xác nhận đăng xuất */}
+      
       {showLogoutConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
           <div className="bg-white rounded-lg shadow-lg p-6 w-80">
@@ -200,4 +202,4 @@ const TutorMenu: React.FC = () => {
   );
 };
 
-export default TutorMenu;
+export default AdminMenu;

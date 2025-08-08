@@ -5,6 +5,8 @@ import TutorsPage from '../pages/TutorsPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import AdminLoginPage from '../pages/AdminLoginPage';
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import AdminStudents from '../pages/admin/AdminStudents';
 
 const AppRoutes = () => {
   return (
@@ -14,6 +16,8 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login/admin" element={<AdminLoginPage />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/students" element={<AdminStudents />} />
     </Routes>
   );
 };

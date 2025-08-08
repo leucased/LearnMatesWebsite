@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import StudentMenu from './StudentMenu';
 import TutorMenu from './TutorMenu';
+import AdminMenu from './AdminMenu';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ const Header: React.FC = () => {
       </header>
       {isAuthenticated && user?.role === 'student' && <StudentMenu />}
       {isAuthenticated && user?.role === 'tutor' && <TutorMenu />}
+      {isAuthenticated && user?.role === 'admin' && <AdminMenu />}
     </>
   );
 };

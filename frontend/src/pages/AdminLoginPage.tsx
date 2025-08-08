@@ -29,7 +29,7 @@ const AdminLoginPage: React.FC = () => {
       if (response.success && response.token && response.user) {
         if (response.user.role === 'admin') {
           login(response.token, response.user);
-          navigate('/'); // hoặc chuyển hướng đến trang dashboard admin
+          navigate('/admin/dashboard'); // Chuyển hướng đến trang dashboard admin
         } else {
           setError('Tài khoản không phải là admin');
         }
