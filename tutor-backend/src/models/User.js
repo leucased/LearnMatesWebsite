@@ -23,9 +23,38 @@ const User = sequelize.define('User', {
       }
     }
   },
+  phone: {
+    type: DataTypes.STRING(20),
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'Số điện thoại không được để trống'
+      }
+    }
+  },
   password: {
     type: DataTypes.STRING(255),
     allowNull: false,
+  },
+  dateOfBirth: {
+    type: DataTypes.DATEONLY,
+    allowNull: false,
+    field: 'date_of_birth',
+    validate: {
+      notEmpty: {
+        msg: 'Ngày sinh không được để trống'
+      }
+    }
+  },
+  gender: {
+    type: DataTypes.ENUM('male', 'female'),
+    allowNull: false,
+    validate: {
+      isIn: {
+        args: [['male', 'female']],
+        msg: 'Giới tính phải là nam hoặc nữ'
+      }
+    }
   },
   role: {
     type: DataTypes.ENUM('student', 'tutor', 'admin'),

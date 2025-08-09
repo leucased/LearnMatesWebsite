@@ -13,7 +13,7 @@ const generateToken = (id) => {
 // @access  Public
 const register = async (req, res) => {
   try {
-    const { email, password, fullName, role = 'student' } = req.body;
+    const { email, password, fullName, phone, dateOfBirth, gender, role = 'student' } = req.body;
 
     // Check if user exists
     const userExists = await User.findOne({ where: { email } });
@@ -24,11 +24,41 @@ const register = async (req, res) => {
       });
     }
 
+    // Validate required fields
+    if (!fullName || !email || !password || !phone || !dateOfBirth || !gender) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Vui lòng điền đầy đủ thông tin bắt buộc'
+      });
+    }
+
+    // Validate gender
+    if (!['male', 'female'].includes(gender)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Giới tính phải là nam hoặc nữ'
+      });
+    }
+
+    // Validate date of birth
+    const birthDate = new Date(dateOfBirth);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    if (age < 5 || age > 100) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Ngày sinh không hợp lệ'
+      });
+    }
+
     // Create user
     const user = await User.create({
       email,
       password,
       fullName,
+      phone,
+      dateOfBirth,
+      gender,
       role
     });
 

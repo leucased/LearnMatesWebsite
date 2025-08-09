@@ -11,7 +11,10 @@ export interface LoginCredentials {
 export interface RegisterCredentials {
   fullName: string;
   email: string;
+  phone: string;
   password: string;
+  dateOfBirth: string;
+  gender: 'male' | 'female';
   role: 'student' | 'tutor';
 }
 

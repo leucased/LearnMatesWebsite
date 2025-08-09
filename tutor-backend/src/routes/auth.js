@@ -25,6 +25,21 @@ const registerValidation = [
     .trim()
     .isLength({ min: 2, max: 100 })
     .withMessage('Họ tên phải từ 2-100 ký tự'),
+  body('phone')
+    .notEmpty()
+    .withMessage('Số điện thoại là bắt buộc')
+    .matches(/^[0-9]{10,11}$/)
+    .withMessage('Số điện thoại không hợp lệ'),
+  body('dateOfBirth')
+    .notEmpty()
+    .withMessage('Ngày sinh là bắt buộc')
+    .isISO8601()
+    .withMessage('Ngày sinh không hợp lệ'),
+  body('gender')
+    .notEmpty()
+    .withMessage('Giới tính là bắt buộc')
+    .isIn(['male', 'female'])
+    .withMessage('Giới tính phải là nam hoặc nữ'),
   body('role')
     .optional()
     .isIn(['student', 'tutor', 'admin'])
