@@ -13,7 +13,7 @@ interface MenuItem {
 const StudentMenu: React.FC = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   // Thêm state xác nhận đăng xuất
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);

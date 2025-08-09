@@ -45,7 +45,7 @@ const LoginPage: React.FC = () => {
         <AuthBranding />
         <div className="bg-white rounded-2xl shadow-xl px-8 py-10 sm:p-10">
           <h2 className="text-center text-2xl font-bold text-gray-900 mb-2">Đăng nhập</h2>
-          <p className="text-center text-sm text-gray-600 mb-6">Chào mừng bạn quay trở lại với LearnMates</p>
+          <p className="text-center text-sm text-gray-600 mb-6">Chào mừng bạn đến với LearnMates - hệ thống kết nối gia sư học viên Tiếng Anh uy tín</p>
           <form className="space-y-6" onSubmit={handleSubmit}>
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md text-sm">{error}</div>
