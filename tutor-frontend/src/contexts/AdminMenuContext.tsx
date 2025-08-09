@@ -20,7 +20,7 @@ interface AdminMenuProviderProps {
 }
 
 export const AdminMenuProvider: React.FC<AdminMenuProviderProps> = ({ children }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const value: AdminMenuContextType = {
     isMenuOpen,
