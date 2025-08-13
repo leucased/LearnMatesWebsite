@@ -26,10 +26,18 @@ const sequelize = new Sequelize(
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log(`✅ PostgreSQL Connected: ${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
-    // Tự động tạo bảng nếu chưa có
-    await sequelize.sync({ alter: true });
-    console.log('🔄 Database synchronized');
+    console.log(`✅ PostgreSQL Connected: ${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'learnmates'}`);
+    
+    // Sync database dựa trên môi trường
+    if (process.env.NODE_ENV === 'development') {
+      // Development: Reset và tạo lại bảng (xóa dữ liệu cũ)
+      await sequelize.sync({ force: true });
+      console.log('🔄 Database reset and synchronized (Development mode)');
+    } else {
+      // Production: Chỉ tạo bảng mới, không thay đổi bảng hiện có
+      await sequelize.sync();
+      console.log('🔄 Database synchronized (Production mode)');
+    }
     
     // Graceful shutdown
     process.on('SIGINT', async () => {
@@ -51,4 +59,4 @@ const connectDB = async () => {
   }
 };
 
-module.exports = { sequelize, connectDB }; 
+module.exports = { sequelize, connectDB };
