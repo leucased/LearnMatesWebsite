@@ -28,34 +28,42 @@ const connectDB = async () => {
     await sequelize.authenticate();
     console.log(`✅ PostgreSQL Connected: ${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'learnmates'}`);
     
-    // Sync database dựa trên môi trường
-    if (process.env.NODE_ENV === 'development') {
-      // Development: Reset và tạo lại bảng (xóa dữ liệu cũ)
-      await sequelize.sync({ force: true });
-      console.log('🔄 Database reset and synchronized (Development mode)');
+    // Chỉ sync theo điều kiện cụ thể - MẶC ĐỊNH KHÔNG SYNC
+    const shouldSync = process.env.DB_SYNC === 'true';
+    const syncMode = process.env.DB_SYNC_MODE || 'safe';
+    
+    if (shouldSync) {
+      console.log(`🔄 Database sync enabled - Mode: ${syncMode}`);
+      
+      switch (syncMode) {
+        case 'force':
+          // XÓA VÀ TẠO LẠI TẤT CẢ BẢNG (MẤT DỮ LIỆU)
+          console.log('⚠️  WARNING: FORCE MODE sẽ xóa toàn bộ dữ liệu!');
+          await sequelize.sync({ force: true });
+          console.log('🔄 Database reset and synchronized (FORCE MODE - DỮ LIỆU ĐÃ BỊ XÓA)');
+          break;
+          
+        case 'alter':
+          // THAY ĐỔI CẤU TRÚC BẢNG ĐỂ KHỚP VỚI MODEL
+          console.log('🔧 ALTER MODE: Đang cập nhật cấu trúc bảng...');
+          await sequelize.sync({ alter: true });
+          console.log('🔄 Database synchronized (ALTER MODE - Cấu trúc đã được cập nhật)');
+          break;
+          
+        case 'safe':
+        default:
+          // CHỈ TẠO BẢNG MỚI, KHÔNG THAY ĐỔI BẢNG HIỆN CÓ
+          await sequelize.sync();
+          console.log('🔄 Database synchronized (SAFE MODE - Chỉ tạo bảng mới)');
+          break;
+      }
     } else {
-      // Production: Chỉ tạo bảng mới, không thay đổi bảng hiện có
-      await sequelize.sync();
-      console.log('🔄 Database synchronized (Production mode)');
+      console.log('📋 Database connection established (NO SYNC - Dữ liệu được bảo toàn)');
     }
     
-    // Graceful shutdown
-    process.on('SIGINT', async () => {
-      console.log('🔄 Shutting down gracefully...');
-      await sequelize.close();
-      console.log('🔄 Database connection closed through app termination');
-      process.exit(0);
-    });
-    
-    process.on('SIGTERM', async () => {
-      console.log('🔄 Shutting down gracefully...');
-      await sequelize.close();
-      console.log('🔄 Database connection closed through app termination');
-      process.exit(0);
-    });
   } catch (error) {
     console.error('❌ Error connecting to PostgreSQL:', error.message);
-    process.exit(1);
+    throw error;
   }
 };
 
