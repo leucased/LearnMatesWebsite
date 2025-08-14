@@ -60,7 +60,11 @@ const User = sequelize.define('User', {
     type: DataTypes.ENUM('student', 'tutor', 'admin'),
     defaultValue: 'student',
     allowNull: false
-  }
+  },
+  avatar: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
 }, {
   tableName: 'users',
   timestamps: true,
@@ -86,4 +90,4 @@ User.prototype.toJSON = function() {
   return user;
 };
 
-module.exports = User; 
+module.exports = User;
